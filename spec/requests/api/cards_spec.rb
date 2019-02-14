@@ -19,7 +19,7 @@ RSpec.describe Api::CardsController, type: :request do
     end
 
     it 'should return all cards' do
-      expect(JSON.parse(response.body).count).to eq 5
+      expect(JSON.parse(response.body)['cards'].count).to eq 5
     end
   end
 
@@ -32,17 +32,17 @@ RSpec.describe Api::CardsController, type: :request do
     end
 
     it 'includes info about user' do
-      expected_email = JSON.parse(response.body)[0]['user']['email']
+      expected_email = JSON.parse(response.body)['cards'][0]['user']['email']
       expect(expected_email).to eq 'user@mail.com' 
     end
 
     it 'includes info about question' do
-      expected_question = JSON.parse(response.body)[0]['question']
+      expected_question = JSON.parse(response.body)['cards'][0]['question']
       expect(expected_question).to eq "What's in name?" 
     end
 
     it 'includes info about category' do
-      expected_category = JSON.parse(response.body)[0]['category']['name']
+      expected_category = JSON.parse(response.body)['cards'][0]['category']['name']
       expect(expected_category).to eq 'Ruby' 
     end
   end
