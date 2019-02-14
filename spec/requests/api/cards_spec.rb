@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Api::CardsController, type: :request do
+  
+  let(:user) { create(:user, email: 'user@mail.com') }
+  let(:credentials) { user.create_new_auth_token }
+  let(:headers) { { HTTP_ACCEPT: 'application/json' } .merge!(credentials) }
+  
   context 'GET /cards' do
 
-    let!(:card) {5.times { create(:card) }}
+    let!(:card) {5.times { create(:card,user: user) }}
 
     before do
-      get '/api/cards'
+      get '/api/cards', headers: headers
     end
 
     it 'returns 200' do
@@ -19,12 +24,11 @@ RSpec.describe Api::CardsController, type: :request do
   end
 
   context 'detailed spec to test associations etc' do
-    let(:user) { create(:user, email: 'user@mail.com') }
     let(:category) { create(:category, name: 'Ruby') }
     let!(:card) { create(:card, question:"What's in name?",answer: "n,a,m,e",category: category, user: user) }
 
     before do
-      get '/api/cards'
+      get '/api/cards', headers: headers
     end
 
     it 'includes info about user' do
