@@ -10,6 +10,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'faker'
+gem 'devise_token_auth'
 
 group :development, :test do
   gem 'rspec-rails'
