@@ -3,15 +3,18 @@ require 'rails_helper'
 RSpec.describe Api::CardsController, type: :request do
   describe 'GET /cards' do
 
+    let!(:card) {5.times { create(:card) }}
+
     before do
-      5.times { create(:card) }
+      get '/api/cards'
+    end
+
+    it 'returns 200' do
+      expect(response).to have_http_status(200)
     end
 
     it 'should return all cards' do
-      get '/api/cards'
-      json_response = JSON.parse(response.body)
-      expect(response.status).to eq 200
-      expect(json_response['cards'].count).to eq 5
+      expect(JSON.parse(response.body)['cards'].count).to eq 5
     end
   end
 end
