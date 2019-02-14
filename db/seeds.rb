@@ -5,12 +5,10 @@ Category.destroy_all
 User.destroy_all
 
 
-5.times do
-    Category.create(name: Faker::Lorem.word)
-end
+Ruby = Category.create(name: "Ruby")
 
 10.times do 
-    Card.create(question: Faker::Quote.famous_last_words ,answer: Faker::Quote.yoda )
+    Card.create(question: Faker::Quote.famous_last_words ,answer: Faker::Quote.yoda,category_id: Ruby.id )
 end
 
 user = User.create(email: "user@mail.com",password: "password")
