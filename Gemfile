@@ -11,6 +11,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'faker'
 gem 'devise_token_auth'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'rspec-rails'

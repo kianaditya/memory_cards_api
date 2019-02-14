@@ -11,6 +11,8 @@ RSpec.describe Card, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of :question }
     it { is_expected.to validate_presence_of :answer }
+    it { is_expected.to validate_presence_of :category_id }
+    it { is_expected.to validate_presence_of :user_id }
   end
 
   describe 'Factory' do

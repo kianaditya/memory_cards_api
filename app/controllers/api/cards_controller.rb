@@ -1,7 +1,9 @@
 class Api::CardsController < ApplicationController
 
+    before_action :authenticate_api_user!
+
     def index
-        cards = Card.all
-        render json: {cards: cards}
+        cards = current_api_user.cards
+        render json: cards, each_serializer: Cards::IndexSerializer
     end
 end
