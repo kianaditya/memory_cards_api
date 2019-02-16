@@ -46,4 +46,44 @@ RSpec.describe Api::CardsController, type: :request do
       expect(expected_category).to eq 'Ruby' 
     end
   end
+
+  context 'Update Cards' do
+    let(:category) { create(:category, name: 'Ruby') }
+    let!(:card) { create(:card,id: 1, question:"What's in name?",answer: "n,a,m,e",category: category, user: user) }
+    let (:valid_params) do
+      { id: 1, question: "Hello World" }
+    end
+
+    before do 
+      patch '/api/cards/1', headers: headers, params: valid_params
+    end
+
+    it 'returns 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'includes info about question' do
+      expected_question = JSON.parse(response.body)['cards'][0]['question']
+      expect(expected_question).to eq "Hello World" 
+    end
+
+  end
+
+  context 'Delete /cards' do
+    let(:category) { create(:category, name: 'Ruby') }
+    let!(:card) { create(:card,id: 1, question:"What's in name?",answer: "n,a,m,e",category: category, user: user) }
+
+    before do 
+      delete '/api/cards/1', headers: headers
+    end
+
+    it 'returns 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should not return any cards' do
+      expect(JSON.parse(response.body)['cards'].count).to eq 0
+    end
+
+  end
 end
