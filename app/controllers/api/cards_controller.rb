@@ -6,6 +6,13 @@ class Api::CardsController < ApplicationController
         cards = current_api_user.cards
         render json: cards, each_serializer: Cards::IndexSerializer
     end
+
+    def create 
+        cards = current_api_user.cards
+        @card = Card.new(card_params)
+        @card.save
+        render json: cards, each_serializer: Cards::IndexSerializer
+    end
     
     def update
         cards = current_api_user.cards

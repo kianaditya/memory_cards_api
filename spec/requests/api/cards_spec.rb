@@ -47,6 +47,40 @@ RSpec.describe Api::CardsController, type: :request do
     end
   end
 
+  context 'Create Card' do 
+    let(:category) { create(:category, name: 'Ruby') }
+    let (:valid_params) do
+      { question: "Hello World", answer: "Hello to you as well!", category_id: category.id, user_id: user.id }
+    end
+
+    before do
+      post '/api/cards', headers: headers, params: valid_params
+    end
+    it 'returns 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should return all cards' do
+      expect(JSON.parse(response.body)['cards'].count).to eq 1
+    end
+
+    it 'includes info about user' do
+      expected_email = JSON.parse(response.body)['cards'][0]['user']['email']
+      expect(expected_email).to eq 'user@mail.com' 
+    end
+
+    it 'includes info about question' do
+      expected_question = JSON.parse(response.body)['cards'][0]['question']
+      expect(expected_question).to eq "Hello World" 
+    end
+
+    it 'includes info about category' do
+      expected_category = JSON.parse(response.body)['cards'][0]['category']['name']
+      expect(expected_category).to eq 'Ruby' 
+    end
+
+  end
+
   context 'Update Cards' do
     let(:category) { create(:category, name: 'Ruby') }
     let!(:card) { create(:card,id: 1, question:"What's in name?",answer: "n,a,m,e",category: category, user: user) }
